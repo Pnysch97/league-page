@@ -2,8 +2,8 @@
 	import Textfield from '@smui/textfield';
   	import Icon from '@smui/textfield/icon';
 	import Transaction from './Transaction.svelte';
-	import Button, { Label } from '@smui/button';
-	import IconButton from '@smui/icon-button';
+        import IconButton from '@smui/icon-button';
+        import { fade } from 'svelte/transition';
 	import Pagination from '../Pagination.svelte';
 	import { match } from 'fuzzyjs';
 	import { goto } from '$app/navigation';
@@ -220,70 +220,60 @@
 		display: inline-block;
 	}
 	
-	.empty {
-		width: 100%;
-		font-style: italic;
-		text-align: center;
-		color: #999;
-	}
+        .empty {
+                width: 100%;
+                font-style: italic;
+                text-align: center;
+                color: #999;
+        }
+
+        .modern-btn {
+                background-image: linear-gradient(135deg, var(--blueOne), #4c83c4);
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                padding: 0.5rem 1rem;
+                margin: 0 0.25rem;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .modern-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .transaction-wrapper {
+                margin-bottom: 1.5rem;
+        }
+
+        .detail-btn {
+                margin-top: 0.5rem;
+        }
 </style>
 
 <div class="transactionsParent">
-	<div class="buttons {show == "trade" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" on:click={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" on:click={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers Costs</Label>
-		</Button>
-	</div>
-	<div class="buttons {show == "waiver" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" on:click={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" on:click={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers Costs</Label>
-		</Button>
-	</div>
-	<div class="buttons {show == "both" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" on:click={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" on:click={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers Costs</Label>
-		</Button>
-	</div>
-	<div class="buttons {show == "waiver claims" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" on:click={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" on:click={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" on:click={() => setShow("waiver")} variant="{show == "waiver claims" ? "raised" : "outlined"}" touch>
-			<Label>Waivers Costs</Label>
-		</Button>
+        <div class="buttons {show == "trade" ? "" : "invis-buttons"}">
+                <button class="modern-btn {show == 'trade' ? 'disabled' : ''}" on:click={() => setShow('trade')}>Trades</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers</button>
+                <button class="modern-btn {show == 'both' ? 'disabled' : ''}" on:click={() => setShow('both')}>Both</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers Costs</button>
+        </div>
+        <div class="buttons {show == "waiver" ? "" : "invis-buttons"}">
+                <button class="modern-btn {show == 'trade' ? 'disabled' : ''}" on:click={() => setShow('trade')}>Trades</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers</button>
+                <button class="modern-btn {show == 'both' ? 'disabled' : ''}" on:click={() => setShow('both')}>Both</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers Costs</button>
+        </div>
+        <div class="buttons {show == "both" ? "" : "invis-buttons"}">
+                <button class="modern-btn {show == 'trade' ? 'disabled' : ''}" on:click={() => setShow('trade')}>Trades</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers</button>
+                <button class="modern-btn {show == 'both' ? 'disabled' : ''}" on:click={() => setShow('both')}>Both</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers Costs</button>
+        </div>
+        <div class="buttons {show == "waiver claims" ? "" : "invis-buttons"}">
+                <button class="modern-btn {show == 'trade' ? 'disabled' : ''}" on:click={() => setShow('trade')}>Trades</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers</button>
+                <button class="modern-btn {show == 'both' ? 'disabled' : ''}" on:click={() => setShow('both')}>Both</button>
+                <button class="modern-btn {show == 'waiver' ? 'disabled' : ''}" on:click={() => setShow('waiver')}>Waivers Costs</button>
         </div>
         <div class="teamFilter">
                 <span class="clearPlaceholder" />
@@ -329,11 +319,14 @@
 		{/if}
 
 		<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={false} />
-		<div class="transactions-child">
-			{#each displayTransactions as transaction (transaction.id)}
-				<Transaction {players} {transaction} masterOffset={masterOffset + 15} {currentManagers} />
-			{/each}
-		</div>
+                <div class="transactions-child">
+                        {#each displayTransactions as transaction (transaction.id)}
+                                <div class="transaction-wrapper" transition:fade>
+                                        <Transaction {players} {transaction} masterOffset={masterOffset + 15} {currentManagers} />
+                                        <button class="modern-btn detail-btn" on:click={() => goto(`/transactions/${transaction.id}`)}>Details</button>
+                                </div>
+                        {/each}
+                </div>
 		<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={true} />
 
 	</div>

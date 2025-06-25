@@ -1,19 +1,21 @@
 import { getLeagueData } from './leagueData';
 import { getLeagueRosters } from './leagueRosters';
 import { getLeagueUsers } from './leagueUsers';
+import { leagueID } from '$lib/utils/leagueInfo';
 import {waitForAll} from './multiPromise';
 import { get } from 'svelte/store';
 import {awards} from '$lib/stores';
 
-export const getAwards = async () => {
-	if(get(awards).podiums) {
-		return get(awards);
-	}
-	const [rosterRes, users, leagueData] = await waitForAll(
-		getLeagueRosters(),
-		getLeagueUsers(),
-		getLeagueData()
-	).catch((err) => { console.error(err); });
+export const getAwards = async (queryLeagueID = leagueID) => {
+        const storeVal = get(awards)[queryLeagueID];
+        if(storeVal && storeVal.podiums) {
+                return storeVal;
+        }
+        const [rosterRes, users, leagueData] = await waitForAll(
+                getLeagueRosters(queryLeagueID),
+                getLeagueUsers(queryLeagueID),
+                getLeagueData(queryLeagueID)
+        ).catch((err) => { console.error(err); });
 
 	const rosters = rosterRes.rosters;
 
@@ -43,7 +45,7 @@ export const getAwards = async () => {
 		currentManagers
 	};
 
-	awards.update(() => gatheredAwards);
+        awards.update((store) => { store[queryLeagueID] = gatheredAwards; return store; });
 
 	return gatheredAwards;
 }
