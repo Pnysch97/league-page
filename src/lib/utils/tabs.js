@@ -44,6 +44,11 @@ export const tabs = [
     dest: "/leagues",
   },
   {
+    icon: "calendar_month",
+    label: "Seasons",
+    dest: "/seasons",
+  },
+  {
     icon: "library_books",
     label: "Articles",
     dest: "/articles",
