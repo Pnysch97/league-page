@@ -2,6 +2,15 @@ import { managers } from '$lib/utils/leagueInfo';
 import { goto } from "$app/navigation";
 import { stringDate } from './news';
 
+export const safeFetch = async (url, options) => {
+    try {
+        return await fetch(url, options);
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+};
+
 export const cleanName = (name) => {
     return name.replace('Team ', '').toLowerCase().replace(/[ ’'!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g, "");
 }

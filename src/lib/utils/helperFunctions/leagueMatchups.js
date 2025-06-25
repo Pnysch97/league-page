@@ -4,6 +4,7 @@ import { getNflState } from "./nflState"
 import { getLeagueRosters } from "./leagueRosters"
 import { getLeagueUsers } from "./leagueUsers"
 import { waitForAll } from './multiPromise';
+import { safeFetch } from './universalFunctions';
 import { get } from 'svelte/store';
 import {matchupsStore} from '$lib/stores';
 
@@ -33,7 +34,7 @@ export const getLeagueMatchups = async () => {
 	// pull in all matchup data for the season
 	const matchupsPromises = [];
 	for(let i = 1; i < leagueData.settings.playoff_week_start; i++) {
-		matchupsPromises.push(fetch(`https://api.sleeper.app/v1/league/${leagueID}/matchups/${i}`, {compress: true}))
+                matchupsPromises.push(safeFetch(`https://api.sleeper.app/v1/league/${leagueID}/matchups/${i}`, {compress: true}))
 	}
 	const matchupsRes = await waitForAll(...matchupsPromises);
 
