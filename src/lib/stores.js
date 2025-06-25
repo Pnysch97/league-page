@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
 export const awards = writable({});
 export const leagueData = writable({});
@@ -15,3 +15,4 @@ export const news = writable([]);
 export const posts = writable([]);
 export const brackets = writable({});
 export const standingsStore = writable({});
+export const articles = writable([]);
