@@ -3,6 +3,7 @@ import { leagueID } from '$lib/utils/leagueInfo';
 import { getLeagueRosters } from "./leagueRosters"
 import { getLeagueUsers } from "./leagueUsers"
 import { waitForAll } from './multiPromise';
+import { safeFetch } from './universalFunctions';
 import { get } from 'svelte/store';
 import {upcomingDraft, previousDrafts} from '$lib/stores';
 
@@ -40,10 +41,10 @@ export const getUpcomingDraft = async () => {
 		}
 	}
 
-	const [officialDraftRes, picksRes] = await waitForAll(
-		fetch(`https://api.sleeper.app/v1/draft/${draftID}`, {compress: true}),
-		fetch(`https://api.sleeper.app/v1/league/${leagueID}/traded_picks`, {compress: true}),
-	).catch((err) => { console.error(err); });
+        const [officialDraftRes, picksRes] = await waitForAll(
+                safeFetch(`https://api.sleeper.app/v1/draft/${draftID}`, {compress: true}),
+                safeFetch(`https://api.sleeper.app/v1/league/${leagueID}/traded_picks`, {compress: true}),
+        ).catch((err) => { console.error(err); });
 
 	const [officialDraft, picks] = await waitForAll(
 		officialDraftRes.json(),
@@ -249,11 +250,11 @@ export const getPreviousDrafts = async () => {
 			currentManagers = originalManagers;
 		}
 	
-		const [officialDraftRes, picksRes, playersRes] = await waitForAll(
-			fetch(`https://api.sleeper.app/v1/draft/${draftID}`, {compress: true}),
-			fetch(`https://api.sleeper.app/v1/draft/${draftID}/traded_picks`, {compress: true}),
-			fetch(`https://api.sleeper.app/v1/draft/${draftID}/picks`, {compress: true}),
-		).catch((err) => { console.error(err); });
+                const [officialDraftRes, picksRes, playersRes] = await waitForAll(
+                        safeFetch(`https://api.sleeper.app/v1/draft/${draftID}`, {compress: true}),
+                        safeFetch(`https://api.sleeper.app/v1/draft/${draftID}/traded_picks`, {compress: true}),
+                        safeFetch(`https://api.sleeper.app/v1/draft/${draftID}/picks`, {compress: true}),
+                ).catch((err) => { console.error(err); });
 	
 		const [officialDraft, picks, players] = await waitForAll(
 			officialDraftRes.json(),
