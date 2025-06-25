@@ -78,7 +78,6 @@
     .details-link:hover {
         text-decoration: underline;
     }
-
     td.mono {
         font-family: monospace;
     }
