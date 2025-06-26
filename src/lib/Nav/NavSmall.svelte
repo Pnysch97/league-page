@@ -23,19 +23,19 @@
 </script>
 
 <style>
-	:global(.menuIcon) {
-		position: absolute;
-		top: 15px;
-		left: 15px;
-		font-size: 2em;
-		color: #888;
-		padding: 6px;
-		cursor: pointer;
-	}
+        :global(.menuIcon) {
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                font-size: 2em;
+                color: #bbb;
+                padding: 6px;
+                cursor: pointer;
+        }
 
-	:global(.menuIcon:hover) {
-		color: #00316b;
-	}
+        :global(.menuIcon:hover) {
+                color: var(--blueOne);
+        }
 
 	:global(.nav-drawer) {
 		z-index: 9;
@@ -43,9 +43,9 @@
 		left: 0;
 	}
 
-	:global(.nav-item) {
-		color: #858585 !important;
-	}
+        :global(.nav-item) {
+                color: #888 !important;
+        }
 
 	.nav-back {
 		position: fixed;

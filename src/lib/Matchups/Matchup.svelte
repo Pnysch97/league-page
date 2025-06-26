@@ -161,8 +161,8 @@
     }
 
     :global(.homeGlow) {
-        box-shadow: 0 0 6px 4px #3279cf;
-        background-color: #00316b !important;
+        box-shadow: 0 0 6px 4px var(--blueTwo);
+        background-color: var(--blueOne) !important;
     }
 
     .away {
