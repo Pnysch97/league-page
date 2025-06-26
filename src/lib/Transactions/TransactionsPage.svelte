@@ -10,8 +10,24 @@
 	import { getLeagueTransactions, loadPlayers } from '$lib/utils/helper';
 	import WaiverTransaction from './WaiverTransaction.svelte';
 
-	export let show, playersInfo, query, queryPage, transactions, stale, perPage, postUpdate=false, leagueTeamManagers;
-	const oldQuery = query;
+       export let show, playersInfo, query, season, queryPage, transactions, stale, perPage, postUpdate=false, leagueTeamManagers;
+       const seasons = Object.keys(leagueTeamManagers.teamManagersMap).map(Number).sort((a,b) => b - a);
+       let teamFilter = 'all';
+       let minBid = '';
+       let maxBid = '';
+       $: teams = (() => {
+               if(season === 'all') {
+                       const names = new Set();
+                       for(const yr in leagueTeamManagers.teamManagersMap) {
+                               for(const rosterID in leagueTeamManagers.teamManagersMap[yr]) {
+                                       names.add(leagueTeamManagers.teamManagersMap[yr][rosterID].team.name);
+                               }
+                       }
+                       return Array.from(names).sort();
+               }
+               return Object.values(leagueTeamManagers.teamManagersMap[season]).map(t => t.team.name);
+       })();
+       const oldQuery = query;
 	let page = queryPage || 0;
 
 	const refreshTransactions = async () => {
@@ -37,18 +53,47 @@
 	// filtered subset based on search
 	let subsetTransactions = [];
 
-	let totalTransactions = 0;
+       let totalTransactions = 0;
 
-	const setFilter = (filterBy, transactions) => {
-		if(filterBy == "both") {
-			return transactions;
-		} else {
-			return transactions.filter( transaction => transaction.type == filterBy);
-		}
-	}
+       const filterSeason = (s, txs) => {
+               if(s === 'all') return txs;
+               return txs.filter(t => t.season == s);
+       };
 
-	// filtered subset based on filter
-	$: filteredTransactions = setFilter(show, transactions);
+       const filterType = (filterBy, txs) => {
+               if(filterBy == 'both') return txs;
+               return txs.filter(t => t.type == filterBy);
+       };
+
+       const filterTeam = (team, txs) => {
+               if(team === 'all') return txs;
+               return txs.filter(t => t.rosters.some(r => {
+                       const tm = leagueTeamManagers.teamManagersMap[t.season]?.[r];
+                       return tm && tm.team.name === team;
+               }));
+       };
+
+       const filterBid = (min, max, txs) => {
+               return txs.filter(t => {
+                       if(t.type !== 'waiver') return true;
+                       let bid = 0;
+                       for(const mv of t.moves) {
+                               for(const col of mv) {
+                                       if(col?.bid) { bid = col.bid; break; }
+                               }
+                               if(bid) break;
+                       }
+                       if(min !== '' && bid < min) return false;
+                       if(max !== '' && bid > max) return false;
+                       return true;
+               });
+       };
+
+       // filtered subset based on filter
+       $: seasonTransactions = filterSeason(season, transactions);
+       $: typeTransactions = filterType(show, seasonTransactions);
+       $: teamTransactions = filterTeam(teamFilter, typeTransactions);
+       $: filteredTransactions = filterBid(minBid, maxBid, teamTransactions);
 
 	const setQuery = (query, filteredTransactions) => {
 		if(!filteredTransactions) {
@@ -76,7 +121,7 @@
 		}
 		displayTransactions = setQuery(query, filteredTransactions);
 		if(postUpdate) {
-            goto(`/transactions?show=${show}&query=${query}&page=${page+1}`, {noscroll: true,  keepfocus: true});
+           goto(`/transactions?show=${show}&query=${query}&page=${page+1}&season=${season}`, {noscroll: true,  keepfocus: true});
 		}
 	}
 
@@ -97,7 +142,7 @@
 		if(query.trim() == oldQuery) return;
 		page = 0;
 		if(postUpdate) {
-            const dest = `/transactions?show=${show}&query=${query.trim()}&page=${page+1}`;
+           const dest = `/transactions?show=${show}&query=${query.trim()}&page=${page+1}&season=${season}`;
             debounce(dest);
 		}
 	}
@@ -105,7 +150,7 @@
 	const clearSearch = () => {
 		query = "";
 		if(postUpdate) {
-			goto(`/transactions?show=${show}&query=&page=${page+1}`, {noscroll: true,  keepfocus: true});
+                       goto(`/transactions?show=${show}&query=&page=${page+1}&season=${season}`, {noscroll: true,  keepfocus: true});
 		}
 	}
 	
@@ -117,16 +162,32 @@
 		}
 	}
 
-	const checkForQuery = (transaction) => {
-		const moves = transaction.moves;
-		for(const move of moves) {
-			for(const col of move) {
-				if(!col?.player) continue;
-				return checkMatch(query, `${players[col.player].fn} ${players[col.player].ln}`);
-			}
-		}
-		return false;
-	}
+       const checkForQuery = (transaction) => {
+               const moves = transaction.moves;
+               for(const move of moves) {
+                       for(const col of move) {
+                               if(!col?.player) continue;
+                               if(checkMatch(query, `${players[col.player].fn} ${players[col.player].ln}`)) {
+                                       return true;
+                               }
+                       }
+               }
+               for(const roster of transaction.rosters) {
+                       const team = leagueTeamManagers.teamManagersMap[transaction.season]?.[roster];
+                       if(team) {
+                               if(checkMatch(query, team.team.name)) {
+                                       return true;
+                               }
+                               for(const managerID of team.managers) {
+                                       const name = leagueTeamManagers.users[managerID]?.display_name;
+                                       if(name && checkMatch(query, name)) {
+                                               return true;
+                                       }
+                               }
+                       }
+               }
+               return false;
+       }
 
 	$: changePage(page, true);
 
@@ -144,14 +205,14 @@
 </script>
 
 <style>
-	.transactionsParent {
-		display: flex;
-		flex-wrap: wrap;
-		position: relative;
-		width: 100%;
-		z-index: 1;
-		overflow-y: hidden;
-	}
+        .transactionsParent {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                width: 100%;
+                z-index: 1;
+                overflow-y: hidden;
+        }
 
     @media (max-width: 1000px) {
     }
@@ -170,17 +231,51 @@
 		margin: 30px auto 16px;
 	}
 
-	.buttons {
-		margin: 40px auto 0;
-	}
+        .filterBar {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+                margin: 20px auto;
+                width: 100%;
+        }
+
+        .buttons {
+                display: flex;
+                gap: 0.5rem;
+        }
+
+        .buttons :global(.smui-button) {
+                border-radius: 20px;
+                text-transform: none;
+        }
+
+        .seasonFilter select {
+                padding: 0.4rem 0.8rem;
+                border-radius: 20px;
+                border: 1px solid var(--blueTwo);
+                background: var(--fff);
+        }
+
+        .teamFilter select,
+        .bidFilter input {
+                padding: 0.4rem 0.6rem;
+                border-radius: 20px;
+                border: 1px solid var(--blueTwo);
+                background: var(--fff);
+        }
+
+        .bidFilter {
+                display: flex;
+                gap: 0.3rem;
+                align-items: center;
+        }
 
 	:global(.disabled) {
 		pointer-events: none;
 	}
 
-	.invis-buttons {
-		display: none !important;
-	}
 
 	.searchContainer {
 		width: 100%;
@@ -202,56 +297,56 @@
 </style>
 
 <div class="transactionsParent">
-	<div class="buttons {show == "trade" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" onclick={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" onclick={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-	</div>
-	<div class="buttons {show == "waiver" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" onclick={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" onclick={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-	</div>
-	<div class="buttons {show == "both" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" onclick={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" onclick={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-	</div>
-	<div class="searchContainer">
-		<span class="clearPlaceholder" />
-		<Textfield
-			class="shaped-outlined"
-			variant="outlined"
-			bind:value={query}
-			label="Search for a player..."
-			on:input={() => search()}
-		>
-			<Icon class="material-icons" slot="leadingIcon">search</Icon>
-		</Textfield>
-		{#if query.length > 0}
-			  <IconButton class="material-icons" onclick={() => clearSearch()}>clear</IconButton>
-		{:else}
-			<span class="clearPlaceholder" />
-		{/if}
-	</div>
+        <div class="filterBar">
+                <div class="buttons">
+                        <Button class="{show == 'trade' ? 'disabled' : ''}" color="primary" onclick={() => setShow('trade')} variant="{show == 'trade' ? 'raised' : 'outlined'}" touch>
+                                <Label>Trades</Label>
+                        </Button>
+                        <Button class="{show == 'waiver' ? 'disabled' : ''}" color="primary" onclick={() => setShow('waiver')} variant="{show == 'waiver' ? 'raised' : 'outlined'}" touch>
+                                <Label>Waivers</Label>
+                        </Button>
+                        <Button class="{show == 'both' ? 'disabled' : ''}" color="primary" onclick={() => setShow('both')} variant="{show == 'both' ? 'raised' : 'outlined'}" touch>
+                                <Label>Both</Label>
+                        </Button>
+                </div>
+                <div class="seasonFilter">
+                        <select bind:value={season} on:change={() => {teamFilter='all';changePage(0);}}>
+                                <option value="all">All Seasons</option>
+                                {#each seasons as yr}
+                                        <option value={yr}>{yr}</option>
+                                {/each}
+                        </select>
+                </div>
+                <div class="teamFilter">
+                        <select bind:value={teamFilter} on:change={() => changePage(0)}>
+                                <option value="all">All Teams</option>
+                                {#each teams as teamName}
+                                        <option value={teamName}>{teamName}</option>
+                                {/each}
+                        </select>
+                </div>
+                <div class="bidFilter">
+                        <input type="number" min="0" placeholder="Min Bid" bind:value={minBid} />
+                        <input type="number" min="0" placeholder="Max Bid" bind:value={maxBid} />
+                </div>
+                <div class="searchContainer">
+                        <span class="clearPlaceholder" />
+                        <Textfield
+                                class="shaped-outlined"
+                                variant="outlined"
+                                bind:value={query}
+                                label="Search for a player or manager..."
+                                on:input={() => search()}
+                        >
+                                <Icon class="material-icons" slot="leadingIcon">search</Icon>
+                        </Textfield>
+                        {#if query.length > 0}
+                                  <IconButton class="material-icons" onclick={() => clearSearch()}>clear</IconButton>
+                        {:else}
+                                <span class="clearPlaceholder" />
+                        {/if}
+                </div>
+        </div>
 
 	<div class="transactions" bind:this={el}>
 		{#if show == "both"}
@@ -289,3 +384,4 @@
 		{/if}
 	{/if}
 </div>
+
