@@ -1,6 +1,5 @@
 <script>
-	import LinearProgress from '@smui/linear-progress';
-    import {Manager} from '$lib/components';
+        import {Manager, LoadingSpinner} from '$lib/components';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
@@ -27,11 +26,10 @@
 </style>
 
 <div class="main">
-        {#await managersInfo}
+    {#await managersInfo}
             <!-- promise is pending -->
             <div class="loading">
-                <p>Retrieving managers...</p>
-                <LinearProgress indeterminate />
+                <LoadingSpinner message="Retrieving managers..." />
             </div>
         {:then [rostersData, leagueTeamManagers, leagueData, transactionsData, awards, records]}
             {#if managers.length && manager > -1}

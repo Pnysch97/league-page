@@ -2,7 +2,7 @@
     import { goto } from "$app/navigation";
     import Pagination from "$lib/Pagination.svelte";
     import { getBlogPosts, leagueName, waitForAll } from "$lib/utils/helper";
-    import LinearProgress from "@smui/linear-progress";
+    import { LoadingSpinner } from "$lib/components";
     import { onMount } from "svelte";
     import Post from "./Post.svelte";
     import { browser } from '$app/environment';
@@ -145,8 +145,7 @@
 
 {#if loading}
     <div class="loading" >
-        <p>Loading league blog posts...</p>
-        <LinearProgress indeterminate />
+        <LoadingSpinner message="Loading league blog posts..." />
     </div>
 {:else}
     <div class="filterButtons">

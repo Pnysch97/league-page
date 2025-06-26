@@ -1,7 +1,7 @@
 <script>
     import {getNflState, getLeagueRosters, getLeagueTeamManagers, waitForAll, loadPlayers, getLeagueData} from '$lib/utils/helper';
     import PowerRankingsDisplay from './PowerRankingsDisplay.svelte';
-    import LinearProgress from '@smui/linear-progress';
+    import { LoadingSpinner } from '$lib/components';
     
     const helperPromises = waitForAll(
         getNflState(),
@@ -25,8 +25,7 @@
 {#await helperPromises}
     <!-- promise is pending -->
     <div class="loading">
-        <p>Calculating power rankings...</p>
-        <LinearProgress indeterminate />
+        <LoadingSpinner message="Calculating power rankings..." />
     </div>
 {:then [nflState, rostersData, leagueTeamManagers, leagueData, playersInfo]}
     {#if leagueData.status != 'pre_draft' && leagueData.status != 'complete'}

@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-	import LinearProgress from '@smui/linear-progress';
+        import { LoadingSpinner } from '$lib/components';
     import Post from "./Post.svelte";
     import { getBlogPosts, getLeagueTeamManagers, waitForAll } from "$lib/utils/helper";
 
@@ -75,8 +75,7 @@
 {#if loading}
     <!-- promise is pending -->
     <div class="loading">
-        <p>Loading Blog Posts...</p>
-        <LinearProgress indeterminate />
+        <LoadingSpinner message="Loading Blog Posts..." />
     </div>
 {:else}
     <h2>League Blog</h2>

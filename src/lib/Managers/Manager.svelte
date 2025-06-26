@@ -1,6 +1,6 @@
 <script>
     import Button, { Group, Label } from '@smui/button';
-	import LinearProgress from '@smui/linear-progress';
+        import { LoadingSpinner } from '$lib/components';
     import {loadPlayers, getLeagueTransactions} from '$lib/utils/helper';
 	import Roster from '../Rosters/Roster.svelte';
 	import TransactionsPage from '../Transactions/TransactionsPage.svelte';
@@ -308,8 +308,7 @@
     {#if loading}
         <!-- promise is pending -->
         <div class="loading">
-            <p>Retrieving players...</p>
-            <LinearProgress indeterminate />
+            <LoadingSpinner message="Retrieving players..." />
         </div>
     {:else}
         <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
@@ -320,8 +319,7 @@
         {#if loading}
             <!-- promise is pending -->
             <div class="loading">
-                <p>Retrieving players...</p>
-                <LinearProgress indeterminate />
+                <LoadingSpinner message="Retrieving players..." />
             </div>
         {:else}
             <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />

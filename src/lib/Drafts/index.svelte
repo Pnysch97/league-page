@@ -1,6 +1,6 @@
 <script>
 	import { waitForAll } from '$lib/utils/helper';
-    import LinearProgress from '@smui/linear-progress';
+    import { LoadingSpinner } from '$lib/components';
     import Draft from './Draft.svelte'; 
 
     export let upcomingDraftData, previousDraftsData, leagueTeamManagersData, playersData;
@@ -25,11 +25,9 @@
 
 
 {#await waitForAll(upcomingDraftData, leagueTeamManagersData, playersData) }
-	<div class="loading">
-		<p>Retrieving upcoming draft...</p>
-		<br />
-		<LinearProgress indeterminate />
-	</div>
+        <div class="loading">
+                <LoadingSpinner message="Retrieving upcoming draft..." />
+        </div>
 {:then [upcomingDraft, leagueTeamManagers, {players}] }
     <h4>Upcoming {upcomingDraft.year} Draft</h4>
     <Draft draftData={upcomingDraft} {leagueTeamManagers} year={upcomingDraft.year} {players} />
@@ -40,13 +38,11 @@
 
 
 {#await waitForAll(previousDraftsData, leagueTeamManagersData, playersData) }
-	<hr />
-	<h4>Previous Drafts</h4>
-	<div class="loading">
-		<p>Retrieving previous drafts...</p>
-		<br />
-		<LinearProgress indeterminate />
-	</div>
+        <hr />
+        <h4>Previous Drafts</h4>
+        <div class="loading">
+                <LoadingSpinner message="Retrieving previous drafts..." />
+        </div>
 {:then [previousDrafts, leagueTeamManagers, {players}] }
 	<!-- Don't display anything unless there are previous drafts -->
 	{#if previousDrafts.length}
