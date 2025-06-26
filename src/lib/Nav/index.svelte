@@ -31,13 +31,13 @@
 		display: table;
     	margin: 0 auto;
 	}
-	nav {
-		background-color: var(--fff);
-		position: relative;
-		z-index: 2;
-		border-bottom: 1px solid #00316b;
-		box-shadow: 0 0 8px 0 #00316b;
-	}
+        nav {
+                background-color: var(--fff);
+                position: relative;
+                z-index: 2;
+                border-bottom: 1px solid var(--blueOne);
+                box-shadow: 0 0 8px 0 var(--blueOne);
+        }
 
 	#logo {
 		width: 80px;
