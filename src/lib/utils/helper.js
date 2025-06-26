@@ -15,7 +15,7 @@ import { getLeagueTeamManagers } from "./helperFunctions/leagueTeamManagers";
 import { getLeagueMatchups } from "./helperFunctions/leagueMatchups";
 import { getRivalryMatchups } from "./helperFunctions/rivalryMatchups";
 import { getNews, stringDate } from "./helperFunctions/news";
-import { loadPlayers } from "./helperFunctions/players";
+import { loadPlayers, loadPlayer } from "./helperFunctions/players";
 import { waitForAll } from "./helperFunctions/multiPromise";
 import {
   getUpcomingDraft,
@@ -56,6 +56,7 @@ export {
   getRivalryMatchups,
   getNews,
   loadPlayers,
+  loadPlayer,
   waitForAll,
   getUpcomingDraft,
   getPreviousDrafts,
@@ -79,4 +80,5 @@ export {
   getAvatar,
   getTeamFromTeamManagers,
   gotoPlayer,
+  loadPlayer,
 };
