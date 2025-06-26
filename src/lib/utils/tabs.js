@@ -84,4 +84,10 @@ export const tabs = [
         dest: '/resources',
         key: 'resources',
     },
+    {
+        icon: 'library_books',
+        label: 'Articles',
+        dest: '/articles',
+        key: 'articles',
+    },
 ];
