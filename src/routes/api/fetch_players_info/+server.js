@@ -28,14 +28,16 @@ export async function GET() {
   } catch {
     // ignore missing cache file
   }
-  // get NFL state from sleeper (week and year)
-  const [nflStateRes, leagueDataRes, playoffsRes] = await waitForAll(
-    fetch(`https://api.sleeper.app/v1/state/nfl`, { compress: true }),
-    fetch(`https://api.sleeper.app/v1/league/${leagueID}`, { compress: true }),
-    fetch(`https://api.sleeper.app/v1/league/${leagueID}/winners_bracket`, {
-      compress: true,
-    }),
-  );
+
+  try {
+    // get NFL state from sleeper (week and year)
+    const [nflStateRes, leagueDataRes, playoffsRes] = await waitForAll(
+      fetch(`https://api.sleeper.app/v1/state/nfl`, { compress: true }),
+      fetch(`https://api.sleeper.app/v1/league/${leagueID}`, { compress: true }),
+      fetch(`https://api.sleeper.app/v1/league/${leagueID}/winners_bracket`, {
+        compress: true,
+      }),
+    );
 
   const [nflState, leagueData, playoffs] = await waitForAll(
     nflStateRes.json(),
@@ -87,6 +89,18 @@ export async function GET() {
     // ignore cache write errors
   }
   return json(players);
+  } catch (err) {
+    console.error("Failed to load players", err);
+    if (cachedPlayers) return json(cachedPlayers);
+    try {
+      const fallback = JSON.parse(await fs.readFile(CACHE_FILE, "utf8"));
+      cachedPlayers = fallback;
+      cacheExpires = now + CACHE_AGE / 2;
+      return json(fallback);
+    } catch {
+      throw error(500, "Failed to load player data");
+    }
+  }
 }
 
 const computePlayers = (playerData, weeklyData, scoringSettings) => {
