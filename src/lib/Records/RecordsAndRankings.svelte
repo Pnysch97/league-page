@@ -11,6 +11,7 @@
     let graphs = [];
     let curTable = 0;
     let curGraph = 0;
+    let showGraphs = false;
 
     let iqOffset = 0;
     let tables = [
@@ -659,10 +660,22 @@
 
 <h4>{prefix} {key == "playoffData" ? "Playoff " : ""}Rankings</h4>
 
-{#if graphs.length}
+<div class="buttonHolder">
+    <Group variant="outlined">
+        <Button class="selectionButtons" on:click={() => showGraphs = true} variant="{showGraphs ? 'raised' : 'outlined'}">
+            <Label>Graphs</Label>
+        </Button>
+        <Button class="selectionButtons" on:click={() => showGraphs = false} variant="{showGraphs ? 'outlined' : 'raised'}">
+            <Label>Tables</Label>
+        </Button>
+    </Group>
+</div>
+
+{#if graphs.length && showGraphs}
     <BarChart {graphs} bind:curGraph={curGraph} {leagueTeamManagers} />
 {/if}
 
+{#if !showGraphs}
 <div class="rankingHolder">
     <div class="rankingInner" style="margin-left: -{100 * curTable}%;">
         {#if lineupIQs[0]?.potentialPoints}
@@ -812,3 +825,4 @@
         {/each}
     </Group>
 </div>
+{/if}
