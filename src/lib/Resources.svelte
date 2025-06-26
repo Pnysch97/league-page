@@ -148,7 +148,7 @@ import { dynasty } from './utils/helper';
                 <a target="_blank" href="{resource.url}">
                     <Item>
                         {#if resource.icon}
-                            <Graphic class="material-icons">{resource.icon}</Graphic>
+                            <Graphic class="material-symbols-outlined">{resource.icon}</Graphic>
                         {/if}
                         <Text class="linkText">{resource.name}{resource.premium ? "*" : ""}</Text>
                     </Item>
@@ -160,7 +160,7 @@ import { dynasty } from './utils/helper';
                 <a target="_blank" href="{resource.url}">
                     <Item>
                         {#if resource.icon}
-                            <Graphic class="material-icons">{resource.icon}</Graphic>
+                            <Graphic class="material-symbols-outlined">{resource.icon}</Graphic>
                         {/if}
                         <Text class="linkText">{resource.name}{resource.premium ? "*" : ""}</Text>
                     </Item>
@@ -172,7 +172,7 @@ import { dynasty } from './utils/helper';
                 <a target="_blank" href="{resource.url}">
                     <Item>
                         {#if resource.icon}
-                            <Graphic class="material-icons">{resource.icon}</Graphic>
+                            <Graphic class="material-symbols-outlined">{resource.icon}</Graphic>
                         {/if}
                         <Text class="linkText">{resource.name}{resource.premium ? "*" : ""}</Text>
                     </Item>

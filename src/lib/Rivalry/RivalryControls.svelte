@@ -36,10 +36,10 @@
 
 <div class="container">
     {#if length > 0}
-        <IconButton class="material-icons" onclick={() => nav("left")}>chevron_left</IconButton>
+        <IconButton class="material-symbols-outlined" onclick={() => nav("left")}>chevron_left</IconButton>
     {/if}
     <h4>{year} Week {displayWeek}</h4>
     {#if length > 0}
-        <IconButton class="material-icons" onclick={() => nav("right")}>chevron_right</IconButton>
+        <IconButton class="material-symbols-outlined" onclick={() => nav("right")}>chevron_right</IconButton>
     {/if}
 </div>

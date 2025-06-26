@@ -246,7 +246,7 @@
                 {#if cell && cell.player}
                     <div class="playerSlot">
                             <div class="tradeSlot playerAvatar" style="border-color: var(--{players[cell.player].pos}); {getAvatar(players[cell.player].pos, cell.player)}">
-                                <i class="indicator material-icons" aria-hidden="true">add_circle</i>
+                                <i class="indicator material-symbols-outlined" aria-hidden="true">add_circle</i>
                             </div>
                         <div class="nameHolder">
                             <span class="name">{`${players[cell.player].fn} ${players[cell.player].ln}`}</span>
@@ -267,7 +267,7 @@
                                 <span class="pickInfo">
                                     {cell.pick.round}<span class="numEnd">{getNumEnd(cell.pick.round)}</span>
                                 </span>
-                                <i class="indicator material-icons" aria-hidden="true">add_circle</i>
+                                <i class="indicator material-symbols-outlined" aria-hidden="true">add_circle</i>
                             </div>
                         </div>
                         <div class="pickNameHolder">
@@ -287,7 +287,7 @@
                                 <span class="pickInfo">
                                     {cell.budget.amount}<span class="numEnd">$</span>
                                 </span>
-                                <i class="indicator material-icons" aria-hidden="true">add_circle</i>
+                                <i class="indicator material-symbols-outlined" aria-hidden="true">add_circle</i>
                             </div>
                         </div>
                     </div>
@@ -296,9 +296,9 @@
                         <div class="avatarHolder">
                             <div class="tradeSlot origin">
                                 {#if dest - origin < 0}
-                                    <i class="direction material-icons" aria-hidden="true">chevron_left</i>
+                                    <i class="direction material-symbols-outlined" aria-hidden="true">chevron_left</i>
                                 {:else}
-                                    <i class="direction material-icons" aria-hidden="true">chevron_right</i>
+                                    <i class="direction material-symbols-outlined" aria-hidden="true">chevron_right</i>
                                 {/if}
                             </div>
                         </div>

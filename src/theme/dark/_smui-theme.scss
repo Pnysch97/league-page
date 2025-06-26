@@ -4,11 +4,11 @@
 
 // Svelte Colors!
 @use '@material/theme/index' as theme with (
-  $primary: #0082c3,
-  $secondary: #00316b,
-  $surface: #000000,
-  $background: #000000,
-  $error: color-palette.$red-900,
+  $primary: #0099ff,
+  $secondary: #00e676,
+  $surface: #1a1a1a,
+  $background: #121212,
+  $error: #ff5252,
 );
 
 // Import all the styles for the classes.
@@ -33,60 +33,60 @@
 @use '@material/typography/index' as typography;
 
 :root {
-  --fff: #000000;
-  --fffTransparent: rgba(0,0,0,0);
-  --f8f8f8: #070707;
-  --f3f3f3: #0d0d0d;
-  --eee: #1b1b1b;
-  --ebebeb: #333;
-  --ddd: #282828;
-  --d7d7d7: #171717;
-  --ccc: #444;
-  --bbb: #444;
-  --aaa: #555;
-  --g999: #666;
-  --g444: #bbb;
-  --g555: #aaa;
-  --g333: #ccc;
+  --fff: #1c1c1e;
+  --fffTransparent: rgba(28,28,30,0);
+  --f8f8f8: #242424;
+  --f3f3f3: #2c2c2c;
+  --eee: #333;
+  --ebebeb: #3a3a3a;
+  --ddd: #444;
+  --d7d7d7: #555;
+  --ccc: #666;
+  --bbb: #777;
+  --aaa: #888;
+  --g999: #999;
+  --g444: #ccc;
+  --g555: #bbb;
+  --g333: #aaa;
   --g111: #eee;
   --g000: #fff;
-  --boxShadowOne: #070707;
-  --boxShadowTwo: #272727;
-  --boxShadowThree: #0d0d0d;
+  --boxShadowOne: #000;
+  --boxShadowTwo: #111;
+  --boxShadowThree: #222;
   --ir: #222;
   --champShadow: #111;
-  --transactHeader: #202424;
-  --draftSwapped: #202025;
-  --waiverAdd: #3e4741;
-  --waiverDrop: #423a3a;
-  --bracketMatch: #010102;
-  --matchupSelected: #2f2f35;
+  --transactHeader: #232323;
+  --draftSwapped: #252525;
+  --waiverAdd: #335c4c;
+  --waiverDrop: #5c3333;
+  --bracketMatch: #1a1a1c;
+  --matchupSelected: #33394a;
   --fadeOne: rgba(0, 0, 0, 0) 0%;
   --fadeTwo: rgba(0, 0, 0, 0.7) 50%;
   --fadeThree: rgba(0, 0, 0, 0.9) 90%;
   --fadeFour: rgba(0, 0, 0, 1) 100%;
-  --blueOne: #0082c3;
-  --blueTwo: #003c86;
+  --blueOne: #0099ff;
+  --blueTwo: #005faa;
   --r1: #1c1c1d;
   --r2: #1f1d1d;
-  --r3: #181a18;
-  --headerPrimary: #2a2e31;
-  --borderOverride: rgba(255,255,255,.3);
-  --rivalryBack: #333;
+  --r3: #181a1b;
+  --headerPrimary: #262a2e;
+  --borderOverride: rgba(255,255,255,.15);
+  --rivalryBack: #2a2a2a;
 
   // Chart bar colors
-  --barChartOne: #446a88;
-  --barChartTwo: #32788f;
-  --barChartThree: #1d808d;
-  --barChartFour: #198886;
-  --barChartFive: #2b8673;
-  --barChartSix: #448864;
+  --barChartOne: #0099ff;
+  --barChartTwo: #00b0ff;
+  --barChartThree: #00c9ff;
+  --barChartFour: #00e676;
+  --barChartFive: #00cc4c;
+  --barChartSix: #00b43d;
 
   // Comparisson bar colors
-  --compBarOne: #446a88;
-  --compBarTwo: #448864;
-  --compBarOneText: #7fc4f5;
-  --compBarTwoText: #79edad;
+  --compBarOne: #0099ff;
+  --compBarTwo: #00e676;
+  --compBarOneText: #66cfff;
+  --compBarTwoText: #66f2b4;
   
   // Positions
   --QBfade: #ff8fb2;
@@ -123,9 +123,10 @@ body {
   background-color: theme.$surface;
   color: theme.$on-surface;
   min-height: 100vh;
-  background: #222;
-  background: linear-gradient(to bottom right, #111,#222 );
-  background: -webkit-linear-gradient(to bottom right, #111,#222 );
+  background: #1a1a1a;
+  background: linear-gradient(to bottom right, #121212, #1c1c1e );
+  background: -webkit-linear-gradient(to bottom right, #121212, #1c1c1e );
+  font-family: 'Inter', 'Roboto', sans-serif;
 }
  
 //
@@ -135,6 +136,7 @@ body {
 //
 html {
   @include typography.typography('body1');
+  font-family: 'Inter', 'Roboto', sans-serif;
 }
  
 h1 {
@@ -184,12 +186,12 @@ strong {
 }
 
 a {
-  color: #40b3ff;
+  color: #0099ff;
 }
 a:visited {
-  color: color.scale(#40b3ff, $lightness: -35%);
+  color: color.scale(#0099ff, $lightness: -35%);
 }
 
 .mdc-button--outlined:not(:disabled) {
-  background-color: #070707 !important;
+  background-color: #1a1a1a !important;
 }

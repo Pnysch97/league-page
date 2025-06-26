@@ -58,11 +58,11 @@
     	justify-content: center;
     }
 
-	:global(.navBar .material-icons) {
-		font-size: 1.8em;
-		height: 25px;
-		width: 22px;
-	}
+        :global(.navBar .material-symbols-outlined) {
+                font-size: 1.8em;
+                height: 25px;
+                width: 22px;
+        }
 
 	.parent {
 		position: relative;
@@ -113,7 +113,7 @@
 						minWidth
 						onclick={() => open()}
 					>
-						<Icon class="material-icons">{tab.icon}</Icon>
+                                                <Icon class="material-symbols-outlined">{tab.icon}</Icon>
 						<Label>{tab.label}</Label>
 					</Tab>
 				</div>
@@ -126,18 +126,18 @@
 					href={tab.dest}
 					minWidth
 				>
-					<Icon class="material-icons">{tab.icon}</Icon>
+                                        <Icon class="material-symbols-outlined">{tab.icon}</Icon>
 					<Label>{tab.label}</Label>
 				</Tab>
 			{/if}
 		{/snippet}
 	</TabBar>
-	<div class="subMenu" style="max-height: {display ? 49 * tabChildren.length - 1 - (managers.length ? 0 : 48) : 0}px; width: {width}px; top: {height}px; left: {left}px; box-shadow: 0 0 {display ? "3px" : "0"} 0 #00316b; border: {display ? "1px" : "0"} solid #00316b; border-top: none;">
+        <div class="subMenu" style="max-height: {display ? 49 * tabChildren.length - 1 - (managers.length ? 0 : 48) : 0}px; width: {width}px; top: {height}px; left: {left}px; box-shadow: 0 0 {display ? "3px" : "0"} 0 var(--blueOne); border: {display ? "1px" : "0"} solid var(--blueOne); border-top: none;">
 		<List>
 			{#each tabChildren as subTab, ix}
 				{#if subTab.label == 'Managers'}
 					<Item class="{managers.length ? '' : 'dontDisplay'}" onSMUIAction={() => subGoto(subTab.dest)} ontouchstart={() => preloadData(subTab.dest)} onmouseover={() => preloadData(subTab.dest)}>
-						<Graphic class="material-icons">{subTab.icon}</Graphic>
+                                                <Graphic class="material-symbols-outlined">{subTab.icon}</Graphic>
 						<Text class="subText">{subTab.label}</Text>
 					</Item>
 					{#if ix != tabChildren.length - 1}
@@ -145,7 +145,7 @@
 					{/if}
 				{:else}
 					<Item onSMUIAction={() => subGoto(subTab.dest)} ontouchstart={() => {if(subTab.label != 'Go to Sleeper') preloadData(subTab.dest)}} onmouseover={() => {if(subTab.label != 'Go to Sleeper') preloadData(subTab.dest)}}>
-						<Graphic class="material-icons">{subTab.icon}</Graphic>
+                                        <Graphic class="material-symbols-outlined">{subTab.icon}</Graphic>
 						<Text class="subText">{subTab.label}</Text>
 					</Item>
 					{#if ix != tabChildren.length - 1}

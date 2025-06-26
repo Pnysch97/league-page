@@ -282,7 +282,7 @@
 				<RosterRow player={starter} />
 			{/each}
 			<Row class="interactive" onclick={toggleSelected}>
-				<Cell colspan=4 class="{division}"><h5><Icon class="material-icons icon">king_bed</Icon> Bench <span class="italic">({status})</span></h5></Cell>
+                            <Cell colspan=4 class="{division}"><h5><Icon class="material-symbols-outlined icon">king_bed</Icon> Bench <span class="italic">({status})</span></h5></Cell>
 			</Row>
 		</Body>
 	</DataTable>
@@ -297,14 +297,14 @@
 				<!-- 	IR	 -->
 				{#if finalIR}
 					<Row>
-					<Cell colspan=4 ><h5><Icon class="material-icons icon">healing</Icon> Injured Reserve</h5></Cell>
+                                    <Cell colspan=4 ><h5><Icon class="material-symbols-outlined icon">healing</Icon> Injured Reserve</h5></Cell>
 					</Row>
 					{#each finalIR as ir}
 						<RosterRow player={ir} />
 					{/each}
 				{/if}
 				<Row class="interactive" onclick={toggleSelected}>
-					<Cell colspan=4 class="{division}"><h5><Icon class="material-icons icon">close_fullscreen</Icon>Close Bench</h5></Cell>
+                                    <Cell colspan=4 class="{division}"><h5><Icon class="material-symbols-outlined icon">close_fullscreen</Icon>Close Bench</h5></Cell>
 				</Row>
 			</Body>
 		</DataTable>
