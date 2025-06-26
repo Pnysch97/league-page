@@ -1,8 +1,10 @@
 <script>
-	import LinearProgress from '@smui/linear-progress';
-	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll } from '$lib/utils/helper';
-	import { Transactions, PowerRankings, HomePost} from '$lib/components';
-	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+        import LinearProgress from '@smui/linear-progress';
+        import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll } from '$lib/utils/helper';
+        import { Transactions, PowerRankings, HomePost} from '$lib/components';
+        import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+        import Hero from '$lib/Hero.svelte';
+        import HomeNews from '$lib/HomeNews.svelte';
 
     const nflState = getNflState();
     const podiumsData = getAwards();
@@ -135,7 +137,7 @@
 		font-style: italic;
 	}
 </style>
-
+<Hero />
 <div id="home">
     <div id="main">
         <div class="text">
@@ -148,6 +150,7 @@
             {/if}
         </div>
         <PowerRankings />
+        <HomeNews />
     </div>
     
     <div class="leagueData">
