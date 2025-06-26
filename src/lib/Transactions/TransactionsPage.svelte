@@ -237,18 +237,18 @@
 	</div>
 	<div class="searchContainer">
 		<span class="clearPlaceholder" />
-		<Textfield
-			class="shaped-outlined"
-			variant="outlined"
-			bind:value={query}
-			label="Search for a player..."
-			on:input={() => search()}
-		>
-			<Icon class="material-icons" slot="leadingIcon">search</Icon>
-		</Textfield>
-		{#if query.length > 0}
-			  <IconButton class="material-icons" onclick={() => clearSearch()}>clear</IconButton>
-		{:else}
+                <Textfield
+                        class="shaped-outlined"
+                        variant="outlined"
+                        bind:value={query}
+                        label="Search for a player..."
+                        on:input={() => search()}
+                >
+                        <Icon class="material-symbols-outlined" slot="leadingIcon">search</Icon>
+                </Textfield>
+                {#if query.length > 0}
+                          <IconButton class="material-symbols-outlined" onclick={() => clearSearch()}>clear</IconButton>
+                {:else}
 			<span class="clearPlaceholder" />
 		{/if}
 	</div>

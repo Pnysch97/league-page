@@ -35,8 +35,8 @@
 		background-color: var(--fff);
 		position: relative;
 		z-index: 2;
-		border-bottom: 1px solid #00316b;
-		box-shadow: 0 0 8px 0 #00316b;
+               border-bottom: 1px solid var(--blueOne);
+               box-shadow: 0 0 8px 0 var(--blueOne);
 	}
 
 	#logo {
@@ -85,8 +85,8 @@
 			onclick={() => switchTheme(darkTheme)}
 			class="lightDark"
 		>
-			<Icon class="material-icons" on>dark_mode</Icon>
-			<Icon class="material-icons">light_mode</Icon>
+                        <Icon class="material-symbols-outlined" on>dark_mode</Icon>
+                        <Icon class="material-symbols-outlined">light_mode</Icon>
 		</IconButton>
 	</div>
 

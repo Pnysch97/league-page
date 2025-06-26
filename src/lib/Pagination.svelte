@@ -46,7 +46,7 @@
     }
 
     :global(.button:hover) {
-        color: #0082c3;
+        color: #005faa;
     }
 
     .paginationBar {
@@ -75,7 +75,7 @@
     }
 
     .dest:hover {
-        color: #0082c3;
+        color: #005faa;
     }
 
     .selected {
@@ -100,7 +100,7 @@
 {#if total > 0 && totPages > 1 }
     <div class="paginationBar">
         {#if page > 0}
-            <Icon class="material-icons button" onclick={() => changePage(page - 1)}>chevron_left</Icon>
+            <Icon class="material-symbols-outlined button" onclick={() => changePage(page - 1)}>chevron_left</Icon>
         {:else}
             <span class="placeholder" />
         {/if}
@@ -116,7 +116,7 @@
             {/each}
         </div>
         {#if page < totPages - 1}
-            <Icon class="material-icons button" onclick={() => changePage(page + 1)}>chevron_right</Icon>
+            <Icon class="material-symbols-outlined button" onclick={() => changePage(page + 1)}>chevron_right</Icon>
         {:else}
             <span class="placeholder" />
         {/if}

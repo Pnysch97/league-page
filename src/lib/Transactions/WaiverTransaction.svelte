@@ -183,9 +183,9 @@
                     <div class="player">
                         <div class="playerAvatar" style="border-color: var(--{players[move[0].player].pos}); background-color: var(--{move[0].type == "Added" ? "waiverAdd" : "waiverDrop"}); {getAvatar(players[move[0].player].pos, move[0].player)}">
                             {#if move[0].type == "Added"}
-                                <i class="add indicator material-icons" aria-hidden="true">add_circle</i>
+                                <i class="add indicator material-symbols-outlined" aria-hidden="true">add_circle</i>
                             {:else if move[0].type == "Dropped"}
-                                <i class="drop indicator material-icons" aria-hidden="true">do_not_disturb_on</i>
+                                <i class="drop indicator material-symbols-outlined" aria-hidden="true">do_not_disturb_on</i>
                             {/if}
                         </div>
                         <span class="nameHolder">
