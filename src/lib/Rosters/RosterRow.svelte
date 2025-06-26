@@ -1,5 +1,6 @@
 <script>
-	import { Row, Cell } from '@smui/data-table';
+import { Row, Cell } from '@smui/data-table';
+import { gotoPlayer } from '$lib/utils/helper';
 	
 	export let player;
 
@@ -214,17 +215,17 @@
 
 <Row>
 	<Cell class="slot playerCell"><span class="pos {playerSLotClass}">{playerSlot}</span></Cell>
-	{#if player.avatar}
-		<Cell class="avatar playerCell">
-            <div class="playerAvatar" style="{player.avatar}">
+        {#if player.avatar}
+                <Cell class="avatar playerCell" on:click={() => gotoPlayer(player.id)}>
+            <div class="playerAvatar clickable" style="{player.avatar}">
                 {#if player.team && player.poss != "DEF"}
                     <img src="https://sleepercdn.com/images/team_logos/nfl/{player.team.toLowerCase()}.png" class="teamLogo" alt="team logo"/>
                 {/if}
             </div>
         </Cell>
 	{/if}
-	<Cell class="playerCell nameCell" colspan={player.name != "Empty" ? 1 : 3}>
-        <div class="info">
+        <Cell class="playerCell nameCell" colspan={player.name != "Empty" ? 1 : 3}>
+        <div class="info clickable" on:click={() => gotoPlayer(player.id)}>
             <!-- name -->
             {@html player.name}
             <!-- name -->
