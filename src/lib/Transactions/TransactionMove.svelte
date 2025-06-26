@@ -1,5 +1,6 @@
 <script>
-	import { getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+import { getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+import { gotoPlayer } from '$lib/utils/helper';
 
 	export let move, leagueTeamManagers, players, season;
 
@@ -244,7 +245,7 @@
                 <div class="line lineL {checkL(cell, ix) ? "hidden" : ""}" />
                 <div class="line lineR {checkR(cell, ix) ? "hidden" : ""}" />
                 {#if cell && cell.player}
-                    <div class="playerSlot">
+                    <div class="playerSlot clickable" on:click={() => gotoPlayer(cell.player)}>
                             <div class="tradeSlot playerAvatar" style="border-color: var(--{players[cell.player].pos}); {getAvatar(players[cell.player].pos, cell.player)}">
                                 <i class="indicator material-icons" aria-hidden="true">add_circle</i>
                             </div>
