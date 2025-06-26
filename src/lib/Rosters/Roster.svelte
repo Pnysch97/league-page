@@ -54,8 +54,9 @@
 				default:
 					break;
 			}
-			player = {
-				name: `${passedPlayers[singlePlayer].fn} ${passedPlayers[singlePlayer].ln}${injury ? `<span class="injury ${injury}">${injury}</span>` : ""}`,
+                        player = {
+                                id: singlePlayer,
+                                name: `${passedPlayers[singlePlayer].fn} ${passedPlayers[singlePlayer].ln}${injury ? `<span class="injury ${injury}">${injury}</span>` : ""}`,
                 nickname: roster.metadata && roster.metadata[`p_nick_${singlePlayer}`] ? roster.metadata[`p_nick_${singlePlayer}`] : null,
 				poss: passedPlayers[singlePlayer].pos,
 				team: passedPlayers[singlePlayer].t,
