@@ -3,7 +3,7 @@
 	import TradeTransaction from "$lib/Transactions/TradeTransaction.svelte";
 	import { getLeagueRecords, getLeagueTransactions, getRivalryMatchups, loadPlayers, round } from "$lib/utils/helper";
 	import { getRosterIDFromManagerIDAndYear } from "$lib/utils/helperFunctions/universalFunctions";
-	import LinearProgress from '@smui/linear-progress';
+        import { LoadingSpinner } from '$lib/components';
 	import { onMount } from "svelte";
 	import ComparissonBar from "./ComparissonBar.svelte";
 	import ManagerSelectors from "./ManagerSelectors.svelte";
@@ -165,9 +165,7 @@
 {#if loading }
     {#if playerOne && playerTwo }
         <div class="loading">
-            <p>Analyzing rivalry...</p>
-            <br />
-            <LinearProgress indeterminate />
+            <LoadingSpinner message="Analyzing rivalry..." />
         </div>
     {:else}
         <div class="center">

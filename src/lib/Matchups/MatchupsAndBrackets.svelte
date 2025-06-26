@@ -1,7 +1,7 @@
 
 <script>
-	import LinearProgress from '@smui/linear-progress';
-	import MatchupWeeks from './MatchupWeeks.svelte';
+        import MatchupWeeks from './MatchupWeeks.svelte';
+        import { LoadingSpinner } from '$lib/components';
 	import Brackets from './Brackets.svelte';
     import Button, { Group, Label } from '@smui/button';
     import { goto } from '$app/navigation';
@@ -67,8 +67,7 @@
 {#if loading}
     <!-- promise is pending -->
     <div class="message">
-        <p>Loading league matchups...</p>
-        <LinearProgress indeterminate />
+        <LoadingSpinner message="Loading league matchups..." />
     </div>
 {:else}
     {#if matchupWeeks.length}

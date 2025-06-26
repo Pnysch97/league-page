@@ -1,8 +1,8 @@
 <script>
     import { leagueName, round } from '$lib/utils/helper';
 	import { getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
-  	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
-	import LinearProgress from '@smui/linear-progress';
+        import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
+        import { LoadingSpinner } from '$lib/components';
     import { onMount } from 'svelte';
     import Standing from './Standing.svelte';
 
@@ -83,8 +83,7 @@
 {#if loading}
     <!-- promise is pending -->
     <div class="loading">
-        <p>Loading Standings...</p>
-        <LinearProgress indeterminate />
+        <LoadingSpinner message="Loading Standings..." />
     </div>
 {:else if preseason}
 <div class="loading">

@@ -1,6 +1,5 @@
 <script>
-	import LinearProgress from '@smui/linear-progress';
-	import { Rosters } from '$lib/components'
+        import { Rosters, LoadingSpinner } from '$lib/components'
 
 	export let data;
 	const rostersInfo = data.rostersInfo;
@@ -11,21 +10,11 @@
 		position: relative;
 		z-index: 1;
 	}
-	.loading {
-		display: block;
-		width: 85%;
-		max-width: 500px;
-		margin: 80px auto;
-	}
 </style>
 
 <div class="holder">
-	{#await rostersInfo}
-		<div class="loading">
-			<p>Retrieving roster data...</p>
-			<br />
-			<LinearProgress indeterminate />
-		</div>
+        {#await rostersInfo}
+                <LoadingSpinner message="Retrieving roster data..." />
 	{:then [leagueData, rosterData, leagueTeamManagers, playersInfo]}
 		<!-- promise was fulfilled -->
 		<Rosters {leagueData} {rosterData} {leagueTeamManagers} {playersInfo} /> <!-- displays rosters -->

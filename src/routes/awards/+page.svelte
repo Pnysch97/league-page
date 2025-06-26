@@ -1,7 +1,6 @@
 <script>
-	import { Awards } from '$lib/components'
-	import { waitForAll } from '$lib/utils/helper';
-	import LinearProgress from '@smui/linear-progress';
+        import { Awards, LoadingSpinner } from '$lib/components'
+        import { waitForAll } from '$lib/utils/helper';
 
     export let data;
     const {awardsData, teamManagersData} = data;
@@ -35,11 +34,10 @@
 </style>
 
 <div class="awards">
-	{#await waitForAll(awardsData, teamManagersData) }
-		<div class="loading">
-			<p>Retrieving awards data...</p>
-			<LinearProgress indeterminate />
-		</div>
+        {#await waitForAll(awardsData, teamManagersData) }
+                <div class="loading">
+                        <LoadingSpinner message="Retrieving awards data..." />
+                </div>
 	{:then [podiums, leagueTeamManagers] }
 		{#each podiums as podium}
 			<Awards {podium} {leagueTeamManagers} />

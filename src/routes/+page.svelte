@@ -1,7 +1,6 @@
 <script>
-	import LinearProgress from '@smui/linear-progress';
-	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll } from '$lib/utils/helper';
-	import { Transactions, PowerRankings, HomePost} from '$lib/components';
+        import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll } from '$lib/utils/helper';
+        import { Transactions, PowerRankings, HomePost, LoadingSpinner } from '$lib/components';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 
     const nflState = getNflState();
@@ -153,8 +152,9 @@
     <div class="leagueData">
         <div class="homeBanner">
             {#await nflState}
-                <div class="center">Retrieving NFL state...</div>
-                <LinearProgress indeterminate />
+                <div class="center">
+                    <LoadingSpinner message="Retrieving NFL state..." />
+                </div>
             {:then nflStateData}
                 <div class="center">NFL {nflStateData.season} 
                     {#if nflStateData.season_type == 'pre'}
@@ -172,8 +172,9 @@
 
         <div id="currentChamp">
             {#await waitForAll(podiumsData, leagueTeamManagersData)}
-                <p class="center">Retrieving awards...</p>
-                <LinearProgress indeterminate />
+                <div class="center">
+                    <LoadingSpinner message="Retrieving awards..." />
+                </div>
             {:then [podiums, leagueTeamManagers]}
                 {#if podiums[0]}
                     <h4>{podiums[0].year} Fantasy Champ</h4>

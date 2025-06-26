@@ -1,6 +1,5 @@
 <script>
-	import LinearProgress from '@smui/linear-progress';
-	import { TransactionsPage } from '$lib/components'
+        import { TransactionsPage, LoadingSpinner } from '$lib/components'
     import { waitForAll } from '$lib/utils/helper';
 
     export let data;
@@ -33,8 +32,7 @@
 <div id="main">
     {#await waitForAll(transactionsData, playersData, leagueTeamManagersData)}
         <div class="loading" >
-            <p>Loading league transactions...</p>
-            <LinearProgress indeterminate />
+            <LoadingSpinner message="Loading league transactions..." />
         </div>
     {:then [{transactions, currentTeams, stale}, playersInfo, leagueTeamManagers]}
         <TransactionsPage {playersInfo} {stale} {transactions} {currentTeams} {show} {query} queryPage={page} {perPage} postUpdate={true} {leagueTeamManagers} />

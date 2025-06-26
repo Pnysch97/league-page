@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { getLeagueTransactions, getLeagueTeamManagers, loadPlayers, waitForAll } from '$lib/utils/helper';
-	import LinearProgress from '@smui/linear-progress';
+        import { getLeagueTransactions, getLeagueTeamManagers, loadPlayers, waitForAll } from '$lib/utils/helper';
+        import { LoadingSpinner } from '$lib/components';
 	import { onMount } from 'svelte';
 	import TradeTransaction from './TradeTransaction.svelte';
 	import WaiverTransaction from './WaiverTransaction.svelte';
@@ -63,9 +63,8 @@
 </style>
 
 <div class="transactions">
-	{#if loading}
-		<p>Loading league transactions...</p>
-		<LinearProgress indeterminate />
+        {#if loading}
+                <LoadingSpinner message="Loading league transactions..." />
 	{:else}
 		<!-- waiver -->
 		{#if transactions.waivers.length}

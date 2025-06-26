@@ -1,5 +1,5 @@
 <script>
-	import LinearProgress from '@smui/linear-progress';
+        import { LoadingSpinner } from '$lib/components';
     import { generateParagraph, waitForAll } from "$lib/utils/helper";
     import { onMount } from "svelte";
     import Comments from "./Comments.svelte";
@@ -199,8 +199,7 @@
 {#if loading}
     <!-- promise is pending -->
     <div class="loading">
-        <p>Loading Blog Post...</p>
-        <LinearProgress indeterminate />
+        <LoadingSpinner message="Loading Blog Post..." />
     </div>
 {:else if safePost}
     <div class="post">
