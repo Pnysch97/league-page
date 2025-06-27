@@ -57,3 +57,30 @@ export const loadPlayers = async (servFetch, refresh = false) => {
         stale: false
     };
 }
+export const loadPlayer = async (id, servFetch) => {
+    const storeVal = get(players);
+    if(storeVal[id]) {
+        return storeVal[id];
+    }
+    if(browser) {
+        const playersInfo = JSON.parse(localStorage.getItem("playersInfo"));
+        if(playersInfo && playersInfo[id]) {
+            players.update(() => playersInfo);
+            return playersInfo[id];
+        }
+    }
+    const smartFetch = servFetch ?? fetch;
+    const res = await smartFetch(`/api/player_info/${id}`, {compress: true});
+    const data = await res.json();
+    if (!res.ok) {
+        throw new Error(data);
+    }
+    if(browser) {
+        const playersInfo = JSON.parse(localStorage.getItem("playersInfo")) || {};
+        playersInfo[id] = data;
+        localStorage.setItem("playersInfo", JSON.stringify(playersInfo));
+        players.update(() => playersInfo);
+    }
+    return data;
+};
+
